@@ -13,12 +13,14 @@ export default new Vuetify({
             ls_inside : "#737FE3",
             bg_card : "#FAFBFF",
             bg_robot: "#7EC8E3",
+            bg_io : "#7680F0"
           },
           dark: {
             background:'#181A1E',
             ls_inside : "#737FE3",
             bg_card : "#212528",
             bg_robot: "#7EC8E3",
+            bg_io : "#7680F0"
           },
         },
       },

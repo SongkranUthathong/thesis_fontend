@@ -45,6 +45,7 @@ export default {
       { icon: "mdi-view-dashboard", title: "Performance" ,rout:"/"},
       {icon: "precision_manufacturing", title: "Steaming" ,rout:"/stream"},
       { icon: "insert_chart_outlined", title: "LogView",rout:"/viewlog"},
+      { icon: "insert_chart_outlined", title: "Device I/O",rout:"/device"},
     ],
   }),
         computed: {

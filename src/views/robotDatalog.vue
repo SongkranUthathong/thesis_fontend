@@ -9,7 +9,8 @@
           request
           @change="getValueSlect($event)"
         >
-          <option value="{{" item-value }}></option>
+        <option value="{{" item-value }}>
+          </option>
         </v-select>
       </v-col>
     </v-row>
