@@ -19,6 +19,7 @@
             cols="12"
             md="6"
             lg="3"
+            
           >
             <v-card :style="shadow" color="bg_card" class="rounded-lg">
               <div class="pa-5">
@@ -27,17 +28,22 @@
                 </div>
               </div>
 
-              <v-sheet class="mx-8" color="transparent">
-                <v-row>
+              <v-sheet class="mx-8 pb-7" color="transparent">
+                <v-row
+                >
                   <v-col
                     v-for="datashow in items.port"
                     :key="datashow"
                     cols="6"
-                    class="d-flex flex-row"
+                    class="d-flex justify-center"
+                  >
+                  <div
+                  v-if="datashow.tg === true"
+                  class="d-flex flex-row"
                   >
                     <v-card
-                      v-if="datashow.tg === true"
-                      class="mx-5 align-center"
+                      
+                      class="mx-5"
                       :color="
                         datashow.act ? datashow.io_color : 'grey darken-1'
                       "
@@ -46,10 +52,18 @@
                       @click="digitalOutput(datashow.idex, datashow.act)"
                     >
                     </v-card>
+                    <div class="d-flex align-center button font-weight-medium">
+                      {{ datashow.txt_port }}
+                    </div>
+                  </div>
 
-                    <v-card
-                      v-else-if="datashow.tg === false"
-                      class="mx-5 align-center"
+                  <div
+                  class="d-flex flex-row"
+                  v-else-if="datashow.tg === false"
+                  >
+                  <v-card
+                      
+                      class="mx-5"
                       :color="
                         datashow.act ? datashow.io_color : 'grey darken-1'
                       "
@@ -60,6 +74,8 @@
                     <div class="d-flex align-center button font-weight-medium">
                       {{ datashow.txt_port }}
                     </div>
+                  </div>
+                    
                   </v-col>
                 </v-row>
               </v-sheet>
@@ -75,36 +91,36 @@
               </div>
               <v-row>
                 <v-col class="button font-weight-medium text-center" cols="3">
-                  Analog_In[0]
+                  CH[0]
                 </v-col>
                 <v-col cols="7" justify="center">
                   <v-progress-linear color="bg_io" rounded height="18">
-                    <h4 class="align-center">5V</h4>
+                    <h4 class="align-center">{{ AnalogIn[0].value }}{{ AnalogIn[0].unit }}</h4>
                   </v-progress-linear>
                   <div class="d-flex justify-space-between">
-                    <h5 class="">0V</h5>
-                    <h5 class="">10V</h5>
+                    <h5 class="">{{ AnalogIn[0].txtMin }}</h5>
+                    <h5 class="">{{AnalogIn[0].txtMax}}</h5>
                   </div>
                 </v-col>
                 <v-col class="button font-weight-medium text-start" cols="2">
-                  Voltage
+                  Volt
                 </v-col>
               </v-row>
               <v-row>
                 <v-col class="button font-weight-medium text-center" cols="3">
-                  Analog_In[1]
+                  CH[1]
                 </v-col>
                 <v-col cols="7" justify="center">
-                  <v-progress-linear color="bg_io" rounded height="18">
-                    <h4 class="align-center">5V</h4>
+                  <v-progress-linear color="bg_io" rounded height="18" :value="AnalogIn[1].value">
+                    <h4 class="align-center">{{ AnalogIn[1].value }}{{ AnalogIn[1].unit }}</h4>
                   </v-progress-linear>
                   <div class="d-flex justify-space-between">
-                    <h5 class="">0V</h5>
-                    <h5 class="">10V</h5>
+                    <h5 class="">{{ AnalogIn[1].txtMin }}</h5>
+                    <h5 class="">{{AnalogIn[1].txtMax}}</h5>
                   </div>
                 </v-col>
                 <v-col class="button font-weight-medium text-start" cols="2">
-                  Voltage
+                  Volt
                 </v-col>
               </v-row>
             </v-card>
@@ -115,6 +131,7 @@
             cols="12"
             md="6"
             lg="3"
+            
           >
             <v-card :style="shadow" color="bg_card" class="rounded-lg">
               <div class="pa-5">
@@ -125,12 +142,9 @@
 
               <v-sheet class="mx-8" color="transparent">
                 <v-row
-                  class="fill-height"
-                  align-content="center"
-                  justify="center"
                 >
                   <v-col
-                    class="mt-5 mb-5 pb-10 d-flex flex-row"
+                    class="mt-5 mb-5 pb-10 d-flex justify-center"
                     cols="6"
                     v-for="datashow in items.port"
                     :key="datashow"
@@ -174,19 +188,21 @@
               </div>
               <v-row>
                 <v-col class="button font-weight-medium text-center" cols="3">
-                  Analog_Out[0]
+                  CH[0]
                 </v-col>
                 <v-col cols="7" justify="center">
                   <v-slider
                     v-model="analog0"
-                    max="100"
+                    max="1000"
+                    :min = "AnalogOut[0].anaMin"
                     color="bg_io"
+                    :disabled="!EnableSlide"
                     @change="analogOut($event)"
                   ></v-slider>
                 </v-col>
                 <v-col class="" cols="2">
                   <p class="button font-weight-medium text-start"
-                  v-text="(analog0 * 10/100).toFixed(2) + ' V '"
+                  v-text="(analog0*AnalogOut[0].anaFactor).toFixed(2) +AnalogOut[0].anaUnit"
                   >
                   </p>
                 </v-col>
@@ -194,19 +210,21 @@
 
               <v-row>
                 <v-col class="button font-weight-medium text-center" cols="3">
-                  Analog_Out[1]
+                  CH[1]
                 </v-col>
                 <v-col cols="7" justify="center">
                   <v-slider
                     v-model="analog1"
-                    max="100"
+                    max="1000"
+                    :min = "AnalogOut[1].anaMin"
                     color="bg_io"
+                    :disabled="!EnableSlide"
                     @change="analogOut($event)"
                   ></v-slider>
                 </v-col>
                 <v-col class="" cols="2">
                   <p class="button font-weight-medium text-start"
-                  v-text="(analog1 * 10/100).toFixed(2) + ' V '"
+                  v-text="(analog1*AnalogOut[1].anaFactor).toFixed(2) + AnalogOut[1].anaUnit"
                   >
                   </p>
                 </v-col>
@@ -215,12 +233,12 @@
           </v-col>
           <v-col cols="12" lg="6">
             <v-card :style="shadow" color="bg_card" class="rounded-lg">
-              <div class="pa-5 text-h5 text-center font-weight-black">
+              <div class="pa-5 mb-3 text-h5 text-center font-weight-black">
                 Tool Analog Input
               </div>
               <v-row>
                 <v-col class="button font-weight-medium text-center" cols="3">
-                  Analog_In[2]
+                  CH[2]
                 </v-col>
                 <v-col cols="7" justify="center">
                   <v-progress-linear color="bg_io" rounded height="18">
@@ -232,14 +250,14 @@
                   </div>
                 </v-col>
                 <v-col class="button font-weight-medium text-start" cols="2">
-                  Voltage
+                  Volt
                 </v-col>
               </v-row>
               <v-row>
                 <v-col class="button font-weight-medium text-center" cols="3">
-                  Analog_In[3]
+                  CH[0]
                 </v-col>
-                <v-col cols="7" justify="center">
+                <v-col cols="7" justify="center" class="mb-5">
                   <v-progress-linear color="bg_io" rounded height="18">
                     <h4 class="align-center">5V</h4>
                   </v-progress-linear>
@@ -249,7 +267,7 @@
                   </div>
                 </v-col>
                 <v-col class="button font-weight-medium text-start" cols="2">
-                  Voltage
+                  Volt
                 </v-col>
               </v-row>
             </v-card>
@@ -262,6 +280,7 @@
 
 <script>
 import axios from "axios";
+
 export default {
   name: "HelloWorld",
 
@@ -544,6 +563,41 @@ export default {
     ],
     analog0 : 0,
     analog1 : 0,
+    AnalogOut:[
+      {
+    anaFactor : 0,
+    anaMin : 0,
+    anaUnit : "V",
+      },
+      {
+        
+    anaFactor : 0,
+    anaMin : 0,
+    anaUnit : "V",
+      }
+    ],
+
+    AnalogIn:[
+      {
+        value : 0,
+        txtMin : "0V",
+        txtMax : "10V",
+        Max:10,
+        Min:0,
+        unit : " V"
+      },
+      {
+        value : 0,
+        txtMin : "0V",
+        txtMax : "10V",
+        Max:10,
+        Min:0,
+        unit : " V"
+      },
+    ],
+    
+
+    EnableSlide : false,
   }),
   created() {
     this.pollData();
@@ -560,10 +614,13 @@ export default {
   methods: {
     ReadDeviceInput() {
       axios.get("http://192.168.1.100:3000/readdevice").then((res) => {
+
         var _ArrOfCI = res.data.conf_digital_input;
         var _ArrOfCO = res.data.conf_digital_output;
         var _ArrOfDI = res.data.std_digital_input;
         var _ArrOfDO = res.data.std_digital_output;
+        var _ArrofTI = res.data.tool_digital_input;
+        var _ArrofTO = res.data.tool_digital_output;
 
         _ArrOfCI.forEach((element, index) => {
           this.digitalIO[0].port[index].act = element;
@@ -577,6 +634,62 @@ export default {
         _ArrOfDO.forEach((element, index) => {
           this.digitalIO[3].port[index].act = element;
         });
+        _ArrofTI.forEach((element, index) => {
+          this.tooldigitlIO[0].port[index].act = element;
+        });
+        _ArrofTO.forEach((element, index) => {
+          this.tooldigitlIO[1].port[index].act = element;
+        });
+        if(res.data.analog_io_types[2] == true){
+          this.analog0 = 100*res.data.standard_analog_output0;
+          this.AnalogOut[0].anaFactor = 10/1000;
+          this.AnalogOut[0].anaMin = 0;
+          this.AnalogOut[0].anaUnit = " V";
+        }
+        else{
+          this.analog0 = 50000*res.data.standard_analog_output0;
+          this.AnalogOut[0].anaFactor = 20/1000;
+          this.AnalogOut[0].anaMin = 200;
+          this.AnalogOut[0].anaUnit = " mA";
+        }
+        if(res.data.analog_io_types[3] == true){
+          
+          this.analog1 = 100*res.data.standard_analog_output1;
+          this.AnalogOut[1].anaFactor = 0.01;
+          this.AnalogOut[1].anaMin = 0;
+          this.AnalogOut[1].anaUnit = " V";
+        }
+        else{
+          this.analog1 = 50000*res.data.standard_analog_output1;
+          this.AnalogOut[1].anaFactor = 20/1000;
+          this.AnalogOut[1].anaMin = 200;
+          this.AnalogOut[1].anaUnit = " mA";
+
+        }
+        if(res.data.analog_io_types[0] == true){
+          this.AnalogIn[0].value = res.data.standard_analog_input0;
+          this.AnalogIn[0].Max = 10;this.AnalogIn[0].Min = 0;
+          this.AnalogIn[0].txtMax = "10V"; this.AnalogIn[0].txtMin = "0V";
+          this.AnalogIn[0].unit = " V";
+        }else{
+          this.AnalogIn[0].value = res.data.standard_analog_input0;
+          this.AnalogIn[0].Max = 0.02;this.AnalogIn[0].Min = 0.004;
+          this.AnalogIn[0].txtMax = "20mA"; this.AnalogIn[0].txtMin = "4mA";
+          this.AnalogIn[0].unit = " mA";
+        }
+        if(res.data.analog_io_types[1] == true){
+          this.AnalogIn[1].value = res.data.standard_analog_input1;
+          this.AnalogIn[1].Max = 10;this.AnalogIn[1].Min = 0;
+          this.AnalogIn[1].txtMax = "10V"; this.AnalogIn[1].txtMin = "0V";
+          this.AnalogIn[1].unit = " V";
+        }else{
+          this.AnalogIn[1].value = res.data.standard_analog_input1;
+          this.AnalogIn[1].Max = 0.02;this.AnalogIn[1].Min = 0.004;
+          this.AnalogIn[1].txtMax = "20mA"; this.AnalogIn[1].txtMin = "4mA";
+          this.AnalogIn[1].unit = " mA";
+        }
+        
+
       });
     },
     digitalOutput(index, vlaue) {
@@ -594,6 +707,7 @@ export default {
       }
     },
     ChangeMode(value) {
+      this.EnableSlide = value;
       this.digitalIO[1].port.forEach((element) => {
         element.tg = value;
       });
