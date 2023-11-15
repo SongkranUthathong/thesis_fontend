@@ -228,19 +228,18 @@ export default {
     this.Chart3.data.labels = [""];
     },
     realtime() {
-      //const url = "localhost:3000/realtime";
-      //alert(">>>.<<<");
-      axios.get("http://192.168.1.100:3000/performance").then((res) => {
-        this.rt_energy[0].val = parseFloat(res.data.actual_main_voltage).toFixed(1);
-        this.rt_energy[1].val = parseFloat(res.data.actual_robot_voltage).toFixed(1);
-        this.rt_energy[2].val = parseFloat(res.data.actual_robot_current).toFixed(1);
-        this.rt_energy[0].percent = parseFloat(res.data.actual_main_voltage * 100 / 48).toFixed(1);
-        this.rt_energy[1].percent = parseFloat(res.data.actual_robot_voltage * 100 / 48).toFixed(1);
-        this.rt_energy[2].percent = parseFloat(res.data.actual_robot_current * 100 / 5).toFixed(1);
-        this.chartView2.val = parseFloat(res.data.actual_robot_power).toFixed(1);
-        this.items[0].subtitle = parseFloat(res.data.time_stamp).toFixed(0);
-        this.items[2].subtitle = res.data.robot_status;
-        this.items[4].subtitle = res.data.safety_status;
+      axios.get("http://192.168.1.19:4444/preformance").then((res) => {
+        alert(res.data)
+        // this.rt_energy[0].val = parseFloat(res.data.actual_main_voltage).toFixed(1);
+        // this.rt_energy[1].val = parseFloat(res.data.actual_robot_voltage).toFixed(1);
+        // this.rt_energy[2].val = parseFloat(res.data.actual_robot_current).toFixed(1);
+        // // this.rt_energy[0].percent = parseFloat(res.data.actual_main_voltage * 100 / 48).toFixed(1);
+        // // this.rt_energy[1].percent = parseFloat(res.data.actual_robot_voltage * 100 / 48).toFixed(1);
+        // // this.rt_energy[2].percent = parseFloat(res.data.actual_robot_current * 100 / 5).toFixed(1);
+        // this.chartView2.val = parseFloat(res.data.actual_robot_power).toFixed(1);
+        // this.items[0].subtitle = parseFloat(res.data.time_stamp).toFixed(0);
+        // this.items[2].subtitle = res.data.robot_status;
+        // this.items[4].subtitle = res.data.safety_status;
 
         //this.info = res.data
 
