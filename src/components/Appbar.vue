@@ -3,13 +3,14 @@
   <v-app-bar app color="background" elevation="0">
     <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     <div id="font_bar" class="mt-0">Dashboard</div>
+
     <v-spacer></v-spacer>
+
     <v-switch v-model="$vuetify.theme.dark" color="ls_inside"></v-switch>
   </v-app-bar>
 
   <v-navigation-drawer v-model="drawer" floating app color="background">
-    
-    <v-list  dense class="mt-5">
+    <v-list  dense>
       <v-list-item-group v-model="SelectedItem" mandatory >
         <v-list-item
           class="mt-3 mx-7"
@@ -26,19 +27,24 @@
             <v-list-item-title>{{
               item.title
             }}</v-list-item-title>
+            
           </v-list-item-content>
+          
         </v-list-item>
       </v-list-item-group>
-    </v-list>
+  </v-list>
   </v-navigation-drawer>
 
 </div>
 </template>
 
 <script>
+// import axios from "axios";
 export default {
   name: "HelloWorld",
+  
   data: () => ({
+    data:"",
      SelectedItem: 0,
     drawer: null,
     items: [
@@ -46,11 +52,21 @@ export default {
       {icon: "precision_manufacturing", title: "Steaming" ,rout:"/stream"},
       { icon: "insert_chart_outlined", title: "LogView",rout:"/viewlog"},
       { icon: "mdi-expansion-card", title: "Device I/O",rout:"/device"},
+      { icon: "mdi-expansion-card", title: "Connect",rout:"/rtdeconenct"},
     ],
   }),
         computed: {
     theme() {
       return this.$vuetify.theme.dark ? "dark" : "light";
+    },
+    
+    methods: {
+      connectRTDE : function(ipadd){
+        // axios.post("http://localhost:4444/connect",{ipAdd: "192.168.47.128"}).then((res) => {
+        //     console.log(res)
+        // });
+          alert(ipadd)
+      }
     },
   },
 };

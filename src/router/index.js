@@ -4,6 +4,7 @@ import rbPerformance from '../views/robotPerformance.vue'
 import viewlog from '../views/robotDatalog.vue'
 import viewsteam from '../views/robotSteam.vue'
 import viewIO from '../views/robotIO.vue'
+import viewConnect from '../views/robotConnect.vue'
 
 Vue.use(VueRouter)
 const routes = [
@@ -26,6 +27,11 @@ const routes = [
         path: "/device",
         name:"fourth",
         component: viewIO
+    },
+    {
+        path: "/rtdeconenct",
+        name:"fif",
+        component: viewConnect
     },
 ];
 const router = new VueRouter({

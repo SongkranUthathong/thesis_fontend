@@ -11,7 +11,7 @@ class LineChart{
             backgroundColor: "rgba(0,0,0,0)",
             pointRadius: 0,
             borderColor: "#000000",
-            borderWidth: 3,
+            borderWidth: 2,
           },
   
         ]

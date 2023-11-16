@@ -3,7 +3,7 @@
     <!-- All Voltage Card-->
     <v-row class="ma-2">
       <v-col cols="12" sm="6" lg="3">
-        <v-card class="mx-0 rounded-xl" :style="shadow">
+        <v-card class="mx-0 rounded-lg" :style="shadow">
           <v-list two-line color="bg_card">
             <template v-for="(item, index) in items.slice(0, 6)">
               <v-divider
@@ -13,7 +13,7 @@
               ></v-divider>
               <v-list-item v-else :key="item.title">
                 <v-avatar color="#7680F0">
-                  <v-icon color="white" size="30" v-text="item.ico"></v-icon>
+                  <v-icon color="white" size="22" v-text="item.ico"></v-icon>
                 </v-avatar>
                 <v-list-item-content>
                   <v-list-item-title
@@ -22,7 +22,7 @@
                     v-text="item.title"
                   ></v-list-item-title>
                   <v-list-item-subtitle
-                    class="text-center mt-2"
+                    class="text-center"
                     id="sub_text"
                     v-text="item.subtitle"
                   ></v-list-item-subtitle>
@@ -33,7 +33,7 @@
         </v-card>
       </v-col>
       <v-col cols="12" sm="6" lg="3" v-for="(item, i) in rt_energy" :key="i">
-        <v-card class="rounded-xl" color="bg_card" :style="shadow">
+        <v-card class="rounded-lg" color="bg_card" :style="shadow">
           <v-list-item two-line>
             <v-row dense justify="start">
               <v-col cols="7">
@@ -52,7 +52,7 @@
                   <v-list-item-title id="val_text" class="ml-5 mt-2">
                     {{ item.val }}
                   </v-list-item-title>
-                  <v-list-item-subtitle class="ml-3 mt-6 mb-3">
+                  <v-list-item-subtitle class="ml-3 mt-2 mb-1">
                     UNIVERSAL ROBOT
                   </v-list-item-subtitle>
                 </v-list-item-content>
@@ -61,7 +61,7 @@
                 <div>
                   <v-progress-circular
                     :value="item.percent"
-                    width="10"
+                    width="8"
                     :color="item.color"
                     size="100"
                     class="text-h6 font-weight-bold"
@@ -189,6 +189,7 @@ export default {
   }),
   created() {
     this.pollData();
+    // this.realtime();
   },
   mounted() {
   this.chartInitlize();
@@ -228,18 +229,20 @@ export default {
     this.Chart3.data.labels = [""];
     },
     realtime() {
-      axios.get("http://192.168.1.19:4444/preformance").then((res) => {
-        alert(res.data)
-        // this.rt_energy[0].val = parseFloat(res.data.actual_main_voltage).toFixed(1);
-        // this.rt_energy[1].val = parseFloat(res.data.actual_robot_voltage).toFixed(1);
-        // this.rt_energy[2].val = parseFloat(res.data.actual_robot_current).toFixed(1);
-        // // this.rt_energy[0].percent = parseFloat(res.data.actual_main_voltage * 100 / 48).toFixed(1);
-        // // this.rt_energy[1].percent = parseFloat(res.data.actual_robot_voltage * 100 / 48).toFixed(1);
-        // // this.rt_energy[2].percent = parseFloat(res.data.actual_robot_current * 100 / 5).toFixed(1);
-        // this.chartView2.val = parseFloat(res.data.actual_robot_power).toFixed(1);
-        // this.items[0].subtitle = parseFloat(res.data.time_stamp).toFixed(0);
-        // this.items[2].subtitle = res.data.robot_status;
-        // this.items[4].subtitle = res.data.safety_status;
+      axios.get("http://localhost:4444/preformance").then((res) => {
+        var resPreformance = res.data[0];
+        console.log(res.data[0])
+        this.rt_energy[0].val = parseFloat(resPreformance.actual_main_voltage).toFixed(1);
+        this.rt_energy[1].val = parseFloat(resPreformance.actual_robot_voltage).toFixed(1);
+        this.rt_energy[2].val = parseFloat(resPreformance.actual_robot_current).toFixed(1);
+        this.rt_energy[0].percent = parseFloat(resPreformance.actual_main_voltage * 100 / 48).toFixed(1);
+        this.rt_energy[1].percent = parseFloat(resPreformance.actual_robot_voltage * 100 / 48).toFixed(1);
+        this.rt_energy[2].percent = parseFloat(resPreformance.actual_robot_current * 100 / 5).toFixed(1);
+        this.chartView2.val = parseFloat(resPreformance.actual_robot_power).toFixed(1);
+        
+        // this.items[0].subtitle = parseFloat(resPreformance.runtime_state).toFixed(0);
+        // this.items[2].subtitle = resPreformance.robot_status;
+        // this.items[4].subtitle = resPreformance.safety_status;
 
         //this.info = res.data
 
@@ -285,17 +288,17 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 #card_Main {
   font-family: 'Mulish', sans-serif;
-  font-size: 17px;
+  font-size: 18px;
   font-weight:900;
 }
 #sub_text{
     font-family: 'Mulish', sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
 }
 #val_text{
       font-family: 'Mulish', sans-serif;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 900;
 }
 </style>

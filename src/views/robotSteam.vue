@@ -5,7 +5,7 @@
       <v-col cols="12" md="4">
         <v-card class="rounded-xl" color="bg_robot" :style="shadow2">
           <v-card-text class="text-subtitle-1 text-start font-weight-bold"
-            >UNIVERSAL ROBOT UR10E</v-card-text
+            >UNIVERSAL ROBOT UR5</v-card-text
           >
           <div class="d-flex flex-column justify-space-between align-center">
             <v-img src="../img/ur10e.png" max-width="50%"></v-img>
@@ -25,10 +25,11 @@
             <br />
           </div>
         </v-card>
-
-        <v-card class="rounded-lg mt-5" color="bg_card" :style="shadow">
+      </v-col>
+        <v-col cols="12" md="8">
+        <v-card class="rounded-lg" color="bg_card" :style="shadow">
           <v-select
-            class="mx-6 mt-5"
+            class="mx-6"
             v-model="selectTable"
             :items="itemsTable"
             item-text="lable"
@@ -55,7 +56,10 @@
           </v-simple-table>
         </v-card>
       </v-col>
-      <v-col cols="12" md="8">
+    </v-row>
+      <v-row class="ma-3">
+      <v-col cols="12">
+
         <div>
           <v-select
           v-model="selectChart"
@@ -67,7 +71,7 @@
           ></v-select>
           <!-- Chart Show -->
           <v-row class="" dense>
-            <v-col cols="12" md="6" v-for="(item, i) in chartCanvas" :key="i">
+            <v-col cols="12" md="4" xl="4" v-for="(item, i) in chartCanvas" :key="i">
               <v-card class="rounded-lg" color="bg_card" :style="shadow">
                 <v-card-title class="text-subtitle-1">{{
                   item.name
@@ -323,7 +327,7 @@ export default {
       
       let _body = Object.assign(_tbApi,_chartApi,{speed_scaling:1})
       axios
-        .put("http://192.168.1.100:3000/steaming", _body)
+        .get("http://localhost:4444/steam", _body)
         .then((res) => {
           const _len = res.data[0][this.selectTable._index].length;
           for (let i = 0; i < _len; i++) {
@@ -373,7 +377,7 @@ export default {
         });
     },
         pollData () {
-		this.polling = setInterval(this.streamdata,100)
+		this.polling = setInterval(this.streamdata,50)
 	},
     showData() {
       alert(this.selectChart._index[0]);

@@ -11,7 +11,7 @@ class LineChart2Axis{
               backgroundColor: "rgba(0,0,0,0)",
               pointRadius: 0,
               borderColor: "#000000",
-              borderWidth: 3,
+              borderWidth: 2,
               tension: .1
             },
             {
@@ -20,7 +20,7 @@ class LineChart2Axis{
                 backgroundColor: "rgba(0,0,0,0)",
                 pointRadius: 0,
                 borderColor: "#000000",
-                borderWidth: 3,
+                borderWidth: 2,
                 tension: .1
               },
           ]
