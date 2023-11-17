@@ -237,7 +237,7 @@ export default {
     },
     itemsTable: [
       {
-        lable: "Actual joint positions",
+        lable: "Actual joint positions111",
         _apiBody: { actual_q: 1 },
         _index: "actual_q",
         _unit: "rad",
@@ -327,7 +327,7 @@ export default {
       
       let _body = Object.assign(_tbApi,_chartApi,{speed_scaling:1})
       axios
-        .get("http://localhost:4444/steam", _body)
+        .get("http://192.168.1.19:4444/station2/steam", _body)
         .then((res) => {
           const _len = res.data[0][this.selectTable._index].length;
           for (let i = 0; i < _len; i++) {

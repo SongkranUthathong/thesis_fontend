@@ -8,21 +8,18 @@
           </v-card-title>
           <v-card-text>
             <v-subheader class="pa-0">
-              The IP/Address robot
+              The Robot Station Select to Realtime Monitor
             </v-subheader>
             <v-row class="mx-0">
               <v-col cols="3">
-                <v-subheader>IP/Address</v-subheader>
+                <v-subheader>Station</v-subheader>
               </v-col>
               <v-col cols="8">
-                <v-text-field v-model="ipInputField" label="Universal Robot IP"></v-text-field>
+                <v-select v-model="slected" :item="data_select1" dense outlined item-text="item" label="View-Data"
+                  persistent-hint return-object single-line></v-select>
               </v-col>
 
             </v-row>
-            <div class="d-flex justify-end">
-                <v-btn v-if="rtdeState == false" @click="rtdeConnect(ipInputField)" color="#5CBBF6" elevation="2">CONNECT</v-btn>
-                <v-btn v-else-if="rtdeState == true" @click="rtdeDisconnect(ipInputField)" color="#FF5555" elevation="2">DISCONNECT</v-btn>
-            </div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -34,57 +31,61 @@
 import axios from "axios";
 
 export default {
-  data() {
-       return {
-        ipInputField : null,
-        rtdeState : null
-        }
-    },
-    mounted() {
-      this.startOpen();
+  data: ()=> ({
+    slected: { item: "Screwing" },
+      data_select1: [
+        { item: "Screwing" },
+        { item: "Assembly" },
+        { item: "Inspection" },
+        { item: "Palletizer" },
+        { item: "MiR" },]
+
+  }),
+  mounted() {
+    this.startOpen();
   },
-  computed:{
+  computed: {
   },
   methods: {
     async rtdeConnect(ip) {
-     await axios.post('http://localhost:4444/connect', {
+      await axios.post('http://localhost:4444/connect', {
         ipAdd: ip,
       })
-        .then((res) =>{
+        .then((res) => {
           var data = res.data[0];
           this.ipInputField = data.ip;
           this.rtdeState = data.status
           // location.reload();
         })
-        .catch((error) =>{
+        .catch((error) => {
           console.log(error);
         });
-        
+
 
     },
-    async rtdeDisconnect(){
-        await axios.get('http://localhost:4444/disconnect')
-        .then( (res) =>{
+    async rtdeDisconnect() {
+      await axios.get('http://localhost:4444/disconnect')
+        .then((res) => {
           var data = res.data[0];
           this.ipInputField = data.ip;
           this.rtdeState = data.status
           // location.reload();
         })
-        .catch( (error) => {
+        .catch((error) => {
           console.log(error);
         });
     },
-    startOpen : function(){
-        axios.get("http://localhost:4444/getConnection").then((res) => {
+    startOpen: function () {
+      axios.get("http://localhost:4444/getConnection").then((res) => {
         var data = res.data[0];
-          this.ipInputField = data.ip;
-          this.rtdeState = data.status
+        this.ipInputField = data.ip;
+        this.rtdeState = data.status
       });
     },
 
-    },
+  },
 
 
-    
+
 };
 </script>

@@ -229,7 +229,7 @@ export default {
     this.Chart3.data.labels = [""];
     },
     realtime() {
-      axios.get("http://localhost:4444/preformance").then((res) => {
+      axios.get("http://192.168.1.19:4444/station2/preformance").then((res) => {
         var resPreformance = res.data[0];
         console.log(res.data[0])
         this.rt_energy[0].val = parseFloat(resPreformance.actual_main_voltage).toFixed(1);
@@ -238,7 +238,7 @@ export default {
         this.rt_energy[0].percent = parseFloat(resPreformance.actual_main_voltage * 100 / 48).toFixed(1);
         this.rt_energy[1].percent = parseFloat(resPreformance.actual_robot_voltage * 100 / 48).toFixed(1);
         this.rt_energy[2].percent = parseFloat(resPreformance.actual_robot_current * 100 / 5).toFixed(1);
-        this.chartView2.val = parseFloat(resPreformance.actual_robot_power).toFixed(1);
+        this.chartView2.val = parseFloat(resPreformance.actual_robot_current * resPreformance.actual_robot_voltage).toFixed(1);
         
         // this.items[0].subtitle = parseFloat(resPreformance.runtime_state).toFixed(0);
         // this.items[2].subtitle = resPreformance.robot_status;

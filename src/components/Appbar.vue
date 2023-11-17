@@ -52,7 +52,7 @@ export default {
       {icon: "precision_manufacturing", title: "Steaming" ,rout:"/stream"},
       { icon: "insert_chart_outlined", title: "LogView",rout:"/viewlog"},
       { icon: "mdi-expansion-card", title: "Device I/O",rout:"/device"},
-      { icon: "mdi-expansion-card", title: "Connect",rout:"/rtdeconenct"},
+      { icon: "mdi-checkbox-multiple-marked-circle-outline", title: "Connect",rout:"/rtdeconenct"},
     ],
   }),
         computed: {
