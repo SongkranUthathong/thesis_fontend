@@ -5,6 +5,7 @@ import viewlog from '../views/robotDatalog.vue'
 import viewsteam from '../views/robotSteam.vue'
 import viewIO from '../views/robotIO.vue'
 import viewConnect from '../views/robotConnect.vue'
+import viewForce from '../views/robotFTMonitor'
 
 Vue.use(VueRouter)
 const routes = [
@@ -32,6 +33,11 @@ const routes = [
         path: "/rtdeconenct",
         name:"fif",
         component: viewConnect
+    },
+    {
+        path: "/force",
+        name:"six",
+        component: viewForce
     },
 ];
 const router = new VueRouter({

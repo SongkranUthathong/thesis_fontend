@@ -2,6 +2,7 @@
 <div>
   <v-app-bar app color="background" elevation="0">
     <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+    <v-icon >mdi-view-dashboard</v-icon>
     <div id="font_bar" class="mt-0">Dashboard</div>
 
     <v-spacer></v-spacer>
@@ -40,6 +41,7 @@
 
 <script>
 // import axios from "axios";
+
 export default {
   name: "HelloWorld",
   
@@ -49,6 +51,7 @@ export default {
     drawer: null,
     items: [
       { icon: "mdi-view-dashboard", title: "Performance" ,rout:"/"},
+      { icon: "mdi-view-dashboard", title: "FT-Monitor" ,rout:"/force"},
       {icon: "precision_manufacturing", title: "Steaming" ,rout:"/stream"},
       { icon: "insert_chart_outlined", title: "LogView",rout:"/viewlog"},
       { icon: "mdi-expansion-card", title: "Device I/O",rout:"/device"},

@@ -12,6 +12,7 @@ class LineChart{
             pointRadius: 0,
             borderColor: "#000000",
             borderWidth: 2,
+            tension: .1
           },
   
         ]

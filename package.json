@@ -1,5 +1,5 @@
 {
-  "name": "digitaltwins-thesis",
+  "name": "AAE-Exhibition-2023",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -12,12 +12,14 @@
     "chart.js": "^2.9.4",
     "core-js": "^3.8.3",
     "vue": "^2.6.14",
+    "vue-cookies": "^1.8.3",
     "vue-router": "^3.5.3",
     "vuetify": "^2.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
+    "@mdi/font": "^7.3.67",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",

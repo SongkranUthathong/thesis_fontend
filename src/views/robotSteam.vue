@@ -2,10 +2,10 @@
   <v-container fluid>
     <v-row class="ma-3">
       <!-- Card Robot Show Speed -->
-      <v-col cols="12" md="4">
-        <v-card class="rounded-xl" color="bg_robot" :style="shadow2">
+      <v-col xs="12" md="5">
+        <v-card  class="rounded-xl" color="bg_robot" :style="shadow2">
           <v-card-text class="text-subtitle-1 text-start font-weight-bold"
-            >UNIVERSAL ROBOT UR5</v-card-text
+            >{{this.$cookies.get('apiStation').size}} : {{this.$cookies.get('apiStation').item}}</v-card-text
           >
           <div class="d-flex flex-column justify-space-between align-center">
             <v-img src="../img/ur10e.png" max-width="50%"></v-img>
@@ -26,7 +26,9 @@
           </div>
         </v-card>
       </v-col>
-        <v-col cols="12" md="8">
+       <!-- Card Robot Show Speed -->
+        <!-- Card Table Show -->
+        <v-col xs="12" md="7">
         <v-card class="rounded-lg" color="bg_card" :style="shadow">
           <v-select
             class="mx-6"
@@ -56,10 +58,11 @@
           </v-simple-table>
         </v-card>
       </v-col>
+        <!-- Card Table Show -->
     </v-row>
+
       <v-row class="ma-3">
       <v-col cols="12">
-
         <div>
           <v-select
           v-model="selectChart"
@@ -71,13 +74,13 @@
           ></v-select>
           <!-- Chart Show -->
           <v-row class="" dense>
-            <v-col cols="12" md="4" xl="4" v-for="(item, i) in chartCanvas" :key="i">
+            <v-col cols="12" md="6" xl="6" v-for="(item, i) in chartCanvas" :key="i">
               <v-card class="rounded-lg" color="bg_card" :style="shadow">
                 <v-card-title class="text-subtitle-1">{{
                   item.name
                 }}</v-card-title>
                 <v-list-item one-line>
-                  <canvas :id="item.chartID"></canvas>
+                  <canvas  :id="item.chartID"></canvas>
                 </v-list-item>
               </v-card>
             </v-col>
@@ -90,7 +93,7 @@
 
 <script>
 import Chart from "chart.js";
-import Line2Axis from "../chart/lineChart2Axis";
+import Line2Axis from "../chart/lineChart";
 import axios from "axios";
 
 const Axis1 = new Line2Axis();
@@ -146,26 +149,26 @@ export default {
       value:"0"
     },
     selectChart:{
-        lable: "Actual joint currents & Target joint currents",
+        lable: "Actual joint currents",
         _apiBody: { actual_current: 1 ,target_current:1},
         _index: ["actual_current", "target_current"],
         _unit: "A",
     },
     itemsChart: [
       {
-        lable: "Actual joint currents & Target joint currents",
+        lable: "Actual joint currents",
         _apiBody: { actual_current: 1 ,target_current:1},
         _index: ["actual_current", "target_current"],
         _unit: "A",
       },
       {
-        lable: "Actual joint positions & Target joint positions",
+        lable: "Actual joint positions",
         _apiBody: { actual_q: 1 ,target_q:1},
         _index: ["actual_q", "target_q"],
         _unit: "rad",
       },
       {
-        lable: "Actual joint velocities & Target joint velocities",
+        lable: "Actual joint velocities",
         _apiBody: { actual_qd: 1 ,target_qd:1},
         _index: ["actual_qd", "target_qd"],
         _unit: "rad/s",
@@ -237,7 +240,7 @@ export default {
     },
     itemsTable: [
       {
-        lable: "Actual joint positions111",
+        lable: "Actual joint positions",
         _apiBody: { actual_q: 1 },
         _index: "actual_q",
         _unit: "rad",
@@ -271,6 +274,14 @@ export default {
         add : "192.168.1.100",
         port : "3000"
     } ,
+    styleChart :[
+    {bgLine : "rgba(155,148,190,0.1)",colorLine : "#9B94BE"}, //ม่วง
+    {bgLine : "rgba(155,148,190,0.1)",colorLine : "#9B94BE"}, //ม่วง
+    {bgLine : "rgba(242,137,151,0.1)",colorLine : "#F28997"}, // แดง
+    {bgLine : "rgba(242,137,151,0.1)",colorLine : "#F28997"}, // แดง
+    {bgLine : "rgba(16,209,235,0.1)",colorLine : "#10D1EB"}, // ฟ้า
+    {bgLine : "rgba(16,209,235,0.1)",colorLine : "#10D1EB"}, // ฟ้า
+    ],
   }),
   computed: {
     shadow() {
@@ -304,17 +315,15 @@ export default {
   },
   methods: {
     chartInitlize() {
-      for (let i = 0; i < this.allAxis.length; i++) {
+      for (let i = 0; i < this.styleChart.length; i++) {
         this.allCtx[i] = document.getElementById(this.allChartID[i]);
-        this.allAxis[i].data.datasets[0].backgroundColor =
-          "rgba(0,255,0,0.0)";
-        this.allAxis[i].data.datasets[0].borderColor = "#4BC2F3";
-        this.allAxis[i].data.datasets[1].backgroundColor =
-          "rgba(231,65,126,0.3)";
-        this.allAxis[i].data.datasets[1].borderColor = "#E7417E";
+        this.allAxis[i].data.datasets[0].backgroundColor = this.styleChart[i].bgLine;
+        this.allAxis[i].data.datasets[0].borderColor = this.styleChart[i].colorLine;
+        // this.allAxis[i].data.datasets[1].backgroundColor ="rgba(231,65,126,0.3)";
+        // this.allAxis[i].data.datasets[1].borderColor = "#E7417E";
         this.allChartView[i] = new Chart(this.allCtx[i], this.allAxis[i]);
         this.allAxis[i].data.datasets[0].data = [0];
-        this.allAxis[i].data.datasets[1].data = [0];
+        // this.allAxis[i].data.datasets[1].data = [0];
         //const today = new Date();
         //const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         this.allAxis[i].data.labels = [""];
@@ -327,7 +336,7 @@ export default {
       
       let _body = Object.assign(_tbApi,_chartApi,{speed_scaling:1})
       axios
-        .get("http://192.168.1.19:4444/station2/steam", _body)
+        .get("http://"+this.$cookies.get('servehost')+":"+this.$cookies.get('serveport')+"/"+this.$cookies.get('apiStation').value+"/steam", _body)
         .then((res) => {
           const _len = res.data[0][this.selectTable._index].length;
           for (let i = 0; i < _len; i++) {
@@ -337,26 +346,26 @@ export default {
             this.showTable[i].unit = this.selectTable._unit;
 
 
-            this.processLine.value = res.data[0].speed_scaling * 100;
+            this.processLine.value = (res.data[0].speed_scaling * 100).toFixed(0);
             //const today = new Date();
             //const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
             this.allAxis[i].data.datasets[0].label = this.selectChart._index[0];
-            this.allAxis[i].data.datasets[1].label = this.selectChart._index[1];
+            // this.allAxis[i].data.datasets[1].label = this.selectChart._index[1];
 
 
             this.allAxis[i].data.datasets[0].data.push(
               res.data[0][this.selectChart._index[0]][i]
             );
-            this.allAxis[i].data.datasets[1].data.push(
-              res.data[0][this.selectChart._index[1]][i]
-            );
+            // this.allAxis[i].data.datasets[1].data.push(
+            //   res.data[0][this.selectChart._index[1]][i]
+            // );
             this.allAxis[i].data.labels.push("");
 
           }
           if(allAxis[5].data.labels.length > 200){
               for (let j = 0; j < _len; j++) {
               this.allAxis[j].data.datasets[0].data.shift();
-              this.allAxis[j].data.datasets[1].data.shift();
+              // this.allAxis[j].data.datasets[1].data.shift();
               this.allAxis[j].data.labels.shift();
               }
             }
